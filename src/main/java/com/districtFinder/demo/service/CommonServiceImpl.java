@@ -1,0 +1,57 @@
+package com.districtFinder.demo.service;
+
+import java.util.List;
+import java.util.stream.Collectors;
+
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.http.HttpMethod;
+import org.springframework.http.HttpStatus;
+import org.springframework.http.ResponseEntity;
+import org.springframework.stereotype.Service;
+import org.springframework.web.client.RestTemplate;
+
+import com.districtFinder.demo.dao.CommonDAO;
+import com.districtFinder.demo.dto.DistrictDTO;
+import com.districtFinder.demo.entities.District;
+import com.districtFinder.demo.feign.client.PaymentMicroServiceFeignClient;
+
+@Service
+public class CommonServiceImpl implements CommonService{
+
+	@Autowired
+	private CommonDAO commonDao;
+	
+	@Autowired
+	PaymentMicroServiceFeignClient paymentMicroserviceFeignClient;
+	
+	public void saveDistrict(DistrictDTO districtDto) {
+		District district = new District(districtDto.getDistrictName(),districtDto.getCity(),districtDto.getState());
+		districtDto.setId(district.getId());
+		this.commonDao.saveDistrict(district);
+	}
+	
+	
+	
+	public List<DistrictDTO> getAllDistrictService(){
+		List<District> list = commonDao.getDistrictDAO();
+		List<DistrictDTO> rest= list.stream().map(a-> new DistrictDTO(a.getDistrictName(), a.getCity(), a.getState()))
+				.collect(Collectors.toList());
+		return rest;
+	}
+	
+	
+	public List<String> getPaymentOption(){
+		String url = "http://localhost:8080/payment-service/paymentoption";
+		
+		RestTemplate restTemplate = new RestTemplate();
+		ResponseEntity<List> response = restTemplate.exchange(url, HttpMethod.GET, null, List.class);
+		return response.getBody();
+	}
+	
+	
+	public ResponseEntity<List<String>> getPaymentOPtionByFC(){
+		
+		System.out.println("making call vaia feign client");
+		return paymentMicroserviceFeignClient.getPaymentOptionByFeignClientWay();
+	}
+}
