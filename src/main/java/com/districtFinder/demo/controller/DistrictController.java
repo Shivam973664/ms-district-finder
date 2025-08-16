@@ -47,5 +47,7 @@ public class DistrictController {
 	public ResponseEntity<List<String>> getPaymentOptionByFeignClientWay(){
 		return commonService.getPaymentOPtionByFC();
 	}
+	
+	
 
 }

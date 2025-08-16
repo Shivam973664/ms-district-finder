@@ -96,6 +96,11 @@
 </dependency>
 
 
+<!-- For Kafka Integration in this project-->
+<dependency>
+    <groupId>org.springframework.kafka</groupId>
+    <artifactId>spring-kafka</artifactId>
+</dependency>
 	</dependencies>
 
 	<!--added by me-->
