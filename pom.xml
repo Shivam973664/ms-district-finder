@@ -79,28 +79,35 @@
 			<artifactId>spring-cloud-starter-openfeign</artifactId>
 		</dependency>
 
-<!--for testing purposes-->
-	<!-- JUnit 5 -->
-<dependency>
-    <groupId>org.junit.jupiter</groupId>
-    <artifactId>junit-jupiter</artifactId>
-    <scope>test</scope>
-</dependency>
+		<!--for testing purposes-->
+		<!-- JUnit 5 -->
+		<dependency>
+			<groupId>org.junit.jupiter</groupId>
+			<artifactId>junit-jupiter</artifactId>
+			<scope>test</scope>
+		</dependency>
 
-<!-- Mockito with JUnit 5 -->
-<dependency>
-    <groupId>org.mockito</groupId>
-    <artifactId>mockito-junit-jupiter</artifactId>
-    <version>5.11.0</version> <!-- Or latest -->
-    <scope>test</scope>
-</dependency>
+		<!-- Mockito with JUnit 5 -->
+		<dependency>
+			<groupId>org.mockito</groupId>
+			<artifactId>mockito-junit-jupiter</artifactId>
+			<version>5.11.0</version> <!-- Or latest -->
+			<scope>test</scope>
+		</dependency>
 
 
-<!-- For Kafka Integration in this project-->
-<dependency>
-    <groupId>org.springframework.kafka</groupId>
-    <artifactId>spring-kafka</artifactId>
-</dependency>
+		<!-- For Kafka Integration in this project-->
+		<dependency>
+			<groupId>org.springframework.kafka</groupId>
+			<artifactId>spring-kafka</artifactId>
+		</dependency>
+
+		<!-- Added for Resilenge Dependecy used for Handling the fallback-->
+		<dependency>
+			<groupId>io.github.resilience4j</groupId>
+			<artifactId>resilience4j-spring-boot3</artifactId>
+		</dependency>
+		
 	</dependencies>
 
 	<!--added by me-->
@@ -115,8 +122,7 @@
 			</dependency>
 		</dependencies>
 	</dependencyManagement>
-	
-	
+
 
 	<build>
 		<plugins>
