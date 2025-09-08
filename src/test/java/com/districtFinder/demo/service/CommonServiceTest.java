@@ -1,5 +1,7 @@
 package com.districtFinder.demo.service;
 
+import java.lang.reflect.InvocationTargetException;
+import java.lang.reflect.Method;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -101,13 +103,40 @@ public class CommonServiceTest {
 	
 	//testing method which do not return any values
 	@Test
-	public void deleteByIdExampleWillBeBest() {
-		DistrictDTO districtDto = new DistrictDTO();
+	public void deleteByIdExampleWillBeBest() throws Exception{
+		try {
+		DistrictDTO districtDto = new DistrictDTO("up","Ballia","");
 		Mockito.doNothing().when(commonService).saveDistrict(districtDto);
 		
 		commonService.saveDistrict(districtDto);
 		Mockito.verify(commonService,Mockito.times(1)).saveDistrict(districtDto);
 		
+		}catch(Exception e) {
+			System.out.println(" Test Case failde" + e.getMessage());
+		}
+		
+	}
+	
+	
+	//Testing private methods in Service class
+	//since private method is not accessible we can use Java Reflection API here.
+	@Test
+	public void testIngPrivateMethod() throws NoSuchMethodException, SecurityException, IllegalAccessException, IllegalArgumentException, InvocationTargetException {
+		Method mthd = CommonServiceImpl.class.getDeclaredMethod("forTestingPrivateMethods", String.class);
+		mthd.setAccessible(true);
+		Boolean book = (Boolean) mthd.invoke(commonService, "book");
+		Assertions.assertTrue(book);
+	}
+	
+	//for handling Exception we use assertThrows
+	@Test
+	public void testIngPrivateMethod_AssertThrows() throws NoSuchMethodException, SecurityException, IllegalAccessException, IllegalArgumentException, InvocationTargetException {
+		Method mthd = CommonServiceImpl.class.getDeclaredMethod("forTestingPrivateMethods", String.class);
+		mthd.setAccessible(true);
+//		Boolean book = (Boolean) ;
+		//second parameter requires Executable where we can pass Lambda method
+		Assertions.assertThrows(RuntimeException.class, 
+				()-> mthd.invoke(commonService, "hello"));
 	}
 
 }

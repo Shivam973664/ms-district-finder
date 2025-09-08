@@ -80,5 +80,18 @@ public class CommonServiceImpl implements CommonService {
 		System.out.println("making call vaia feign client : Fallback to UserService");
 		return userServiceFeignClient.getPaymentOption();
 	}
+	
+	
+	private boolean forTestingPrivateMethods(String justAParameter) {
+		System.out.println("THis is private method we need to test it using SPring boot test");
+		
+		if(justAParameter.equals("book")) {
+			return true;
+		}
+		else {
+			throw new RuntimeException();
+		}
+	}
+	
 
 }
